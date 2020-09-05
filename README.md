@@ -2,4 +2,4 @@ Expense Manager with Python.
 
 Database:  Sqlite/ PostgreSql.
 
-Author: Thamarai Selvan.
+Author: Thamarai Selvan, Navaneethakrishnan.
