@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> home</title>
+
+	<style>
+		body{
+			margin:0;
+			padding: 0;
+			font-family: 'Roboto', sans-serif;
+			background: rgba(0,0,0,0.8);
+			height: 100vh;
+		}
+		.top{
+			background: rgba(255,255,255);
+			width:100%;
+			height:100px;
+			position: sticky;
+			padding: 20px 10px;
+
+		}
+		.left{
+			transform: translateX(40px);
+		}
+		.leftone{
+			position: relative;
+			width: 80px;
+			left: 80px;
+			top:-35px;
+			padding:-200px;
+			transform: translateX(-5px) translateY(-40px);
+
+		}
+		nav input{
+			background: transparent;
+			color:black;
+			transform: translateY(-36px);
+			padding: 13px;
+			font-size:30px;
+			width:200px;
+			border:2px solid rgba(158,124,122,0.7);
+			border-radius: 15px;
+			
+		}
+		.profile{
+
+			width:50px;
+			height: 50px;
+			border-radius: 100px;
+
+		}
+		.right{
+			float: right;
+			position: top;
+			transform: translateX(-20px) translateY(-170px);
+		}
+		
+
+	footer{
+
+			position: fixed;
+			left:0;
+			bottom: 0%;
+			height: 103px;
+			width: 100%;
+			text-align: center;
+			background-image: -webkit-linear-gradient(180deg,red,yellow);
+			
+	}
+ td{
+		border-width: : 3px ;
+		border-style: solid ;
+		border-color:  rgba(103, 7, 105, 0.8);
+		padding: 10px 90px;
+		border-radius: 10px;
+		
+	}
+	td a{
+		text-decoration: none;
+		color: rgba(0,0,0,0.7);
+		font-weight: 900;
+	}
+	.icon{
+		width: 35px;
+		height:40px;
+	}
+	.top_icon{
+		width: 40px;
+		height:40px;
+		padding: 10px 15px;
+
+	}
+	</style>
+</head>
+<body>
+	<nav class="top">
+		<div class="left>" <a href="#"><img class="profile" src="home.jpg"></a></div>
+		<div class="leftone"><h2>cash</h2><br>
+			<input type="number" name="amount" class="amount"  value="657656" disabled="">
+		</div>
+		
+		
+		<div class="right">
+			<a href="/login"> <button class="button"> Login </button></a>
+			<a href="/signin"> <button class="button"> Signin </button></a> 
+			<a href="/logout"> <button class="button"> Logout </button></a> 
+		</div>	
+
+	</nav>
+	
+
+
+	
+	
+
+
+
+
+	<footer>
+		<table >
+			<tr class="addon">
+				<td><form action='/transaction'>
+					  <img src="icons/transaction.png"  class="icon"> 
+					<input type="submit" name="" value="Transactions">
+				</form></td>
+				<td><form action='/'>
+					  <img src="icons/report.png"  class="icon">  
+					<input type="submit" name="" value="report">
+				</form></td>
+				<td><form action='/add'>
+					  <img src="icons/add.png"  class="icon"> 
+					<input type="submit" name="" value="Add">
+				</form></td>
+				<td><form action='/'>
+					  <img src="icons/planning.png"  class="icon">  
+					<input type="submit" name="" value="Planning">
+				</form></td>
+				<td><form action='/profile'>
+					  <img src="icons/account.png"  class="icon"> 
+					<input type="submit" name="" value="Account">
+				</form></td>
+				
+		</table>
+	</footer>
+	</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		.top{
+			width:100%;
+			height: 80px;
+			background-color: rgb(105,105,105);
+			color: white;
+			font-size: 30px;
+			padding-left:20px ;
+		}
+		/*p .text{
+			transform: translateX(20px) translateY(20px);
+		}*/
+		
+		input{
+			width:150px;
+			height:30px;
+			border:3px solid gray;
+		}
+		td{
+			text-align: center;
+			margin-right: 10px;
+			margin-left: 10px;
+			padding:10px 15px;
+		}
+		table,th,td{
+			
+			width: 100%;
+			border-collapse: collapse;
+		}
+	td{
+		width: 55px;
+		padding:18px;
+		text-align: left;
+	}
+	
+	tr{
+		border-bottom:1px solid gray;
+	}
+	table{
+		border:1px solid black;
+
+	}
+	}
+
+	</style>
+	<script>
+		function fil(){
+			var s=document.getElementById('filter');
+			console.log(s.value)
+			if (s.value=="date"){
+					var text1=document.createElement("p");
+					text1.innerHTML="From :";
+					text1.class="date"
+					var from=document.createElement("input");
+					from.name="from";
+					from.id="fromdate";
+					from.type="date";
+					from.class="date";
+
+					document.getElementById("one").appendChild(text1);	
+					document.getElementById("two").appendChild(from);
+
+					var text2=document.createElement("p");
+					text2.innerHTML="To :";
+					text2.class="date";
+					var to=document.createElement("input");
+					//to.sAettribute("class","to");
+					to.type="date";
+					to.name="to";
+					to.id="todate";
+					to.class="date";
+					document.getElementById("three").appendChild(text2);
+					document.getElementById("four").appendChild(to);
+			}
+		}
+		function validate()
+		{
+			var d=new date();
+			console.log(d);
+			var s1=document.getElementById("todate");
+			if(s1.value> d)
+			{
+				alert("Please select valid END date");
+				return false;
+			}
+			else
+				return true;
+		}
+	</script>
+</head>
+<body>
+	<div class="top">
+		<h2>Order <b>Details</b></h2>
+	</div>
+	<form action="/filter" onsubmit=" return validate()" method="POST" >
+		Filter : <input type="text" id="filter" name="search" onchange="fil()"><br>
+			<table>
+				<tr>
+					<td id="one"></td>
+					<td id="two"></td>
+					<td id="three"></td>
+					<td id="four"></td>
+				</tr>
+			</table>
+		<!--If Multiple: 
+		<select name="multiple" multiple>
+			<option value="date">Date</option>
+			<option value="time">Time</option>
+			<option value="paymenttype">Payment Type</option>
+			<option value="transactionid">Transaction TD</option>
+			<option value="category">Category</option>
+			<option value="subcategory">Sub-Category</option>
+			<option value="amount">Amount</option>
+			</select>-->
+		 <input type="submit" name="button" value="Get Data"> 
+
+
+
+	</form>
+<table class="table table-striped">
+	<thead class="thead-light">
+		<tr class="head"><td>Date</td><td>Time</td><td>Payment Type</td> <td>Transaction ID</td><td>Category</td><td>Sub Category</td> <td>Amount</td><td>Remarks</td></tr>
+	</thead>
+	<div>
+	{% for value in rows %}
+	<tr class="content">
+		
+			{% for value in value %}
+		<td>{{value}}</td>
+
+		{% endfor%}
+		</tr>
+
+	{% endfor %}
+	</div>
+</table>
+<hr>
+</body>
+</html>

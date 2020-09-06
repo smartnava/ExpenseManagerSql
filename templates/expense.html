@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		.expense_input{
+			padding:10px 25px;
+			border: 3px solid rgba(40,130,118,0.8);
+			border-radius:10px;
+			max-width: 650px;
+		}
+		
+	
+	</style>
+</head>
+<body>
+<form action="/expensedata" method="POST">
+	<div class="expense_input">
+		<table>
+			<tr>
+				<td class="text">Date:</td>
+				<td><input type="date" name="date" required="" autofocus="" placeholder="Date"></td>
+				<td class="text">Time:</td>
+				<td><input type="time" name="time" placeholder="Time" required="" ></td>
+			</tr>
+			<tr>
+				<td class="text">Payment Type :</td>
+				<td>
+					<select id="paymenttype" name="paymenttype"  required="">
+						<option  value="" selected="" > --Select Payment Type--</option>
+						
+					</select>
+
+				</td>
+				<td class="text">Transaction ID.If any  :</td>
+				<td><input type="text" name="number" required="" placeholder="Transaction ID"></td>
+			</tr>
+			<tr>
+				<td class="text">Category :</td>
+				<td>
+					<select id="category" name="category" onchange='mysubcategory()' required="" >
+						<option value="" selected="">--Select any--</option>
+						
+					</select>
+				</td>
+				<td class="text">Sub-Category :</td>
+				<td>
+					<select id="subcategory" name="sub" >
+						<option value="" selected="">--Select any--</option>
+						
+					</select> 
+					
+				</td>
+			</tr>
+			<tr>
+				<td class="text">expense value:</td>
+				<td><input type="number" name="money" placeholder="Amount" required="" ></td>
+				<td class="text"> Note :</td>
+				<td><textarea name="note" cols="30" rows="2"></textarea></td>
+			</tr>
+			<tr>
+				<td><input type="submit" name="submit"></td>
+			</tr>
+			
+
+		</table>	
+	</div>
+</form>
+</body>
+<script>
+	var cat=JSON.parse('{{category|tojson|safe}}')
+	var scat=JSON.parse('{{subcategory|tojson|safe}}')
+	var payment=JSON.parse('{{data1|tojson|safe}}')
+	console.log(cat)
+	console.log(scat)
+	console.log(payment)
+
+	function pay()
+	{
+		var s1=document.getElementById("paymenttype")
+		for(i=0;i<payment.length;i++)
+		{
+			var s2=document.createElement("option");
+			s2.value=payment[i][0];
+			s2.innerHTML=payment[i][1];
+			s1.appendChild(s2);
+		}
+
+	}
+	pay()
+
+	function category()
+	{
+		var s1=document.getElementById("category")
+		for(i=0;i<payment.length;i++)
+		{
+			var s2=document.createElement("option");
+			s2.value=cat[i][0];
+			s2.innerHTML=cat[i][1];
+			s1.appendChild(s2);
+		}
+
+	}
+	category()
+	function mysubcategory()
+	{
+		var s1=document.getElementById("category")
+		var s2=document.getElementById("subcategory")
+		s2.innerHTML=" "
+		for(i=0;i<scat.length;i++)
+		{
+			for(j=0;j<scat[i].length;j++)
+			{
+				if (s1.value==scat[i][j][2])
+				{
+					var s3=document.createElement("option")
+					s3.value=scat[i][j][0]
+					s3.innerHTML=scat[i][j][1]
+					s2.appendChild(s3)
+				}
+			}
+			
+		}
+
+	}
+	
+</script>
+</html>
