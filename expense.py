@@ -215,13 +215,21 @@ def verify_user():
         return redirect(url_for('signin'))
     if user[1]==request.form['password'] and user[0]==request.form['username']:
         session['username']=request.form['username']
-        return render_template('profile.html')
+        return redirect(url_for('home'))
     conn.close()
     return 'incorrect password'
 #profile page
 @app.route('/profile')
 def profile():
     create_profile()
+    
+    payment_type()
+    category()
+    subcategory()
+    details()
+    ipayment_type()
+    icategory_type()
+    record()
     return render_template('profile.html')
 @app.route('/pdata',methods=['POST','GET'])
 def pdata():
@@ -229,22 +237,10 @@ def pdata():
     c=insert_profiledata()
     return redirect(url_for('ehome'))
 #expense page
-@app.route('/expense_init')
-def expense_init():    
-    try:
-        category()
-        record()
-        icategory_type()
-        payment_type()
-        ipayment_type()
-        details()
-        subcategory()   
-        isubcategory_type()
-    except:
-        pass
+
 @app.route('/ehome')
 def ehome():
-    expense_init()
+    
     dic={}
     category=[]
     subcategory=[]
@@ -273,14 +269,85 @@ def expense():
 def history():
     conn=sqlite3.connect('edbjoin.db')
     c=conn.cursor()
-    c.execute(''' select * from '''+ session['username']+'''_details ''')
-    rows = c.fetchall()
+    c.execute(''' select * from tom_details ''')
+    a=c.fetchall()
+    
+    c.execute(''' select tom_paymenttype.paymenttype from tom_paymenttype
+                    INNER JOIN tom_details ON
+                    tom_paymenttype.id=tom_details.paymenttype''')
+    b=c.fetchall()
+    c.execute(''' select tom_category.category  from tom_category
+                    INNER JOIN tom_details ON tom_category.p_id=tom_details.category''')
+    d=c.fetchall()
+    c.execute(''' select tom_subcategory.subcategory from tom_subcategory
+                    inner join tom_details on tom_details.category=tom_subcategory.pid and
+                    tom_details.category=tom_subcategory.id ''')
+    e=c.fetchall()
+    lis=[]*len(a[0])
+    for x in range(len(a)):         
+            li=(a[x][0],a[x][1],b[x][0],a[x][3],d[x][0],e[x][0],a[x][6],a[x][7])
+            lis.append(li)
     conn.commit()
     conn.close()
-    return render_template('history.html',rows=rows)
+    return render_template('history.html',rows=lis)
 
 @app.route('/filter',methods=['POST','GET'])
 def filter():
+    s1=request.form['from']
+    s2=request.form['to']
+    conn=sqlite3.connect('edbjoin.db')
+    c=conn.cursor()
+    c.execute(""" select * from """+session['username']+"""_details where date>='{}' and date<='{}'""".format(request.form['from'],request.form['to']))
+    a=c.fetchall()
+    
+    c.execute(''' select tom_paymenttype.paymenttype from tom_paymenttype
+                    INNER JOIN tom_details ON
+                    tom_paymenttype.id=tom_details.paymenttype''')
+    b=c.fetchall()
+    c.execute(''' select tom_category.category  from tom_category
+                    INNER JOIN tom_details ON tom_category.p_id=tom_details.category''')
+    d=c.fetchall()
+    c.execute(''' select tom_subcategory.subcategory from tom_subcategory
+                    inner join tom_details on tom_details.category=tom_subcategory.pid and
+                    tom_details.category=tom_subcategory.id ''')
+    e=c.fetchall()
+    lis=[]
+    for x in range(len(a)):         
+            li=(a[x][0],a[x][1],b[x][0],a[x][3],d[x][0],e[x][0],a[x][6],a[x][7])
+            lis.append(li)
+    conn.commit()
+    conn.close()
+    return render_template('history.html',rows=lis)
+
+
+def ed():
+    conn=sqlite3.connect('edbjoin.db')
+    c=conn.cursor()
+    c.execute(''' select * from tom_details ''')
+    a=c.fetchall()
+    
+    c.execute(''' select tom_paymenttype.paymenttype from tom_paymenttype
+                    INNER JOIN tom_details ON
+                    tom_paymenttype.id=tom_details.paymenttype''')
+    b=c.fetchall()
+    c.execute(''' select tom_category.category  from tom_category
+                    INNER JOIN tom_details ON tom_category.p_id=tom_details.category''')
+    d=c.fetchall()
+    c.execute(''' select tom_subcategory.subcategory from tom_subcategory
+                    inner join tom_details on tom_details.category=tom_subcategory.pid and
+                    tom_details.category=tom_subcategory.id ''')
+    e=c.fetchall()
+    lis=[]
+    for x in range(len(a)):         
+            li=(a[x][0],a[x][1],b[x][0],a[x][3],d[x][0],e[x][0],a[x][6],a[x][7])
+            lis.append(li)
+    print(a)
+    print(lis)    
+
+    conn.commit()
+    conn.close()
+
+def oldfilter():
     s1=request.form['from']
     s2=request.form['to']
     conn=sqlite3.connect('edbjoin.db')
